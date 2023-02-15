@@ -7,7 +7,6 @@ public class ParamsExtractor {
 
     public LaunchParams createLaunchParams(String[] arguments) {
         LaunchParams params = new LaunchParams();
-        params.setFromCommandLine(true);
         for (String argument : arguments) {
             String[] nameValue = argument.split("[=:]");
             if (nameValue.length > 1) {
