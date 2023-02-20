@@ -7,9 +7,13 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.builder.SimpleStepBuilder;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
+
+import java.util.Collections;
+import java.util.List;
 
 
 public abstract class AbstractBatchConfig<I, O> extends AbstractChunkConfig<I, O> implements ExecutableBatch {
@@ -20,11 +24,15 @@ public abstract class AbstractBatchConfig<I, O> extends AbstractChunkConfig<I, O
 	private JobRepository jobRepository;
 	
 	public Step step() {
-		return new StepBuilder("step1", jobRepository)
+		SimpleStepBuilder<I, O> stepBuilder = new StepBuilder("step1", jobRepository)
 				.<I, O>chunk(getChunkSize(), transactionManager)
 				.reader(reader())
 				.processor(processor())
-				.writer(writer())
+				.writer(writer());
+		for (Object listener : listeners()) {
+			stepBuilder.listener(listener);
+		}
+		return stepBuilder
 				.build();
 	}
 	
@@ -40,5 +48,9 @@ public abstract class AbstractBatchConfig<I, O> extends AbstractChunkConfig<I, O
 	
 	protected JobExecutionListener listener() {
 		return new DefaultJobCompletionListener();
+	}
+	
+	protected List<BatchCommonListener> listeners() {
+		return Collections.emptyList();
 	}
 }

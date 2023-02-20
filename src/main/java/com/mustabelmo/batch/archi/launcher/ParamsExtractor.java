@@ -1,11 +1,8 @@
 package com.mustabelmo.batch.archi.launcher;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class ParamsExtractor {
 
-    public LaunchParams createLaunchParams(String[] arguments) {
+    public static LaunchParams createLaunchParams(String[] arguments) {
         LaunchParams params = new LaunchParams();
         for (String argument : arguments) {
             String[] nameValue = argument.split("[=:]");

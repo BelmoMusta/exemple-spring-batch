@@ -3,7 +3,6 @@ package com.mustabelmo.batch.archi.config;
 import org.springframework.batch.core.configuration.support.DefaultBatchConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 

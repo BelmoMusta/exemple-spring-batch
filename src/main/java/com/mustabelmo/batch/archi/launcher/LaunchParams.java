@@ -28,4 +28,8 @@ public class LaunchParams extends ConcurrentHashMap<String, String> {
         this.forEach(jobParametersBuilder::addString);
         return jobParametersBuilder.toJobParameters();
     }
+    
+    public boolean isRandomPortConfigured() {
+        return containsKey("--server.port");
+    }
 }
